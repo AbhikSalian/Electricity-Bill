@@ -3,17 +3,14 @@ import javax.swing.*;
 
 public class ElectricityBill implements ActionListener {
 
-    // GUI components
     JFrame frame;
     JTextField customerNoField, meterNoField, previousReadingField, currentReadingField;
     JButton calculateButton, printButton;
-
-    // instance variables
     int customerNo, meterNo, previousReading, currentReading;
     double totalBill;
 
     public ElectricityBill() {
-        // initialize GUI components
+       
         frame = new JFrame("Electricity Bill Calculator");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(400, 300);
@@ -61,25 +58,25 @@ public class ElectricityBill implements ActionListener {
         printButton.setBounds(210, 200, 100, 25);
         panel.add(printButton);
 
-        // add action listeners to buttons
+        
         calculateButton.addActionListener(this);
         printButton.addActionListener(this);
 
-        // add panel to frame and display
+       
         frame.add(panel);
         frame.setVisible(true);
     }
 
-    // handle button clicks
+    
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == calculateButton) {
-            // get input values
+            
             customerNo = Integer.parseInt(customerNoField.getText());
             meterNo = Integer.parseInt(meterNoField.getText());
             previousReading = Integer.parseInt(previousReadingField.getText());
             currentReading = Integer.parseInt(currentReadingField.getText());
 
-            // calculate bill
+            
             int units = currentReading - previousReading;
             if (units <= 100)
                 totalBill = units;
@@ -90,11 +87,11 @@ public class ElectricityBill implements ActionListener {
             else
                 totalBill = 100 + 250 + 1200 + (units - 500) * 6;
 
-            // display total bill
+            
             JOptionPane.showMessageDialog(frame, "Total Bill: $" + String.format("%.2f", totalBill));
 
         } else if (e.getSource() == printButton) {
-        // calculate bill
+        
         int units = currentReading - previousReading;
         if (units <= 100)
             totalBill = units;
@@ -105,7 +102,7 @@ public class ElectricityBill implements ActionListener {
         else
             totalBill = 100 + 250 + 1200 + (units - 500) * 6;
 
-        // display bill details
+        
         String billDetails = "Customer Number: " + customerNo + "\n" +
                              "Meter Number: " + meterNo + "\n" +
                              "Previous Reading: " + previousReading + "\n" +
