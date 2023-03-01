@@ -1,16 +1,20 @@
+//Electricity bill calculator using GUI
+//Abhik L Salian
+//4SO21CS004
 import java.awt.event.*;
 import javax.swing.*;
 
 public class ElectricityBill implements ActionListener {
-
+    
     JFrame frame;
     JTextField customerNoField, meterNoField, previousReadingField, currentReadingField;
     JButton calculateButton, printButton;
+
     int customerNo, meterNo, previousReading, currentReading;
     double totalBill;
 
     public ElectricityBill() {
-       
+
         frame = new JFrame("Electricity Bill Calculator");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(400, 300);
@@ -58,16 +62,13 @@ public class ElectricityBill implements ActionListener {
         printButton.setBounds(210, 200, 100, 25);
         panel.add(printButton);
 
-        
         calculateButton.addActionListener(this);
         printButton.addActionListener(this);
 
-       
         frame.add(panel);
         frame.setVisible(true);
     }
 
-    
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == calculateButton) {
             
@@ -76,7 +77,6 @@ public class ElectricityBill implements ActionListener {
             previousReading = Integer.parseInt(previousReadingField.getText());
             currentReading = Integer.parseInt(currentReadingField.getText());
 
-            
             int units = currentReading - previousReading;
             if (units <= 100)
                 totalBill = units;
@@ -87,8 +87,7 @@ public class ElectricityBill implements ActionListener {
             else
                 totalBill = 100 + 250 + 1200 + (units - 500) * 6;
 
-            
-            JOptionPane.showMessageDialog(frame, "Total Bill: $" + String.format("%.2f", totalBill));
+            JOptionPane.showMessageDialog(frame, "Total Bill: Rs. " +totalBill);
 
         } else if (e.getSource() == printButton) {
         
@@ -102,19 +101,14 @@ public class ElectricityBill implements ActionListener {
         else
             totalBill = 100 + 250 + 1200 + (units - 500) * 6;
 
-        
         String billDetails = "Customer Number: " + customerNo + "\n" +
                              "Meter Number: " + meterNo + "\n" +
                              "Previous Reading: " + previousReading + "\n" +
                              "Current Reading: " + currentReading + "\n" +
                              "Total Units: " + units + "\n" +
-                             "Total Bill: $" + String.format("%.2f", totalBill);
+                             "Total Bill: Rs. " + totalBill;
         JTextArea textArea = new JTextArea(billDetails);
-        JScrollPane scrollPane = new JScrollPane(textArea);
-        textArea.setLineWrap(true);
-        textArea.setWrapStyleWord(true);
-        scrollPane.setPreferredSize(new Dimension(400, 300));
-        JOptionPane.showMessageDialog(frame, scrollPane);
+        JOptionPane.showMessageDialog(frame, textArea);
     }
 }
 
