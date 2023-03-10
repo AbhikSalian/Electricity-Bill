@@ -5,19 +5,19 @@ import java.awt.event.*;
 import javax.swing.*;
 
 public class ElectricityBill implements ActionListener {
-    
+   
     JFrame frame;
     JTextField customerNoField, meterNoField, previousReadingField, currentReadingField;
     JButton calculateButton, printButton;
-
-    int customerNo, meterNo, previousReading, currentReading;
+    JRadioButton domestic,commercial;
+    int customerNo, meterNo, previousReading, currentReading,units;
     double totalBill;
 
     public ElectricityBill() {
 
         frame = new JFrame("Electricity Bill Calculator");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(400, 300);
+        frame.setSize(400, 400);
 
         JPanel panel = new JPanel();
         panel.setLayout(null);
@@ -55,13 +55,29 @@ public class ElectricityBill implements ActionListener {
         panel.add(currentReadingField);
 
         calculateButton = new JButton("Calculate");
-        calculateButton.setBounds(70, 200, 100, 25);
+        calculateButton.setBounds(70, 250, 100, 25);
         panel.add(calculateButton);
 
         printButton = new JButton("Print");
-        printButton.setBounds(210, 200, 100, 25);
+        printButton.setBounds(210, 250, 100, 25);
         panel.add(printButton);
 
+        JLabel ctype=new JLabel("Select customer type :");
+        ctype.setBounds(20,180,200,25);
+        panel.add(ctype);
+       
+        domestic = new JRadioButton("Domestic");
+        domestic.setBounds(70,200,100,25);
+        panel.add(domestic);
+       
+        commercial = new JRadioButton("Commercial");
+        commercial.setBounds(170,200,100,25);
+        panel.add(commercial);
+        
+        ButtonGroup bg=new ButtonGroup();
+        bg.add(domestic);
+        bg.add(commercial);
+       
         calculateButton.addActionListener(this);
         printButton.addActionListener(this);
 
@@ -70,14 +86,31 @@ public class ElectricityBill implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
+        if(domestic.isSelected())
+        {
         if (e.getSource() == calculateButton) {
-            
-            customerNo = Integer.parseInt(customerNoField.getText());
-            meterNo = Integer.parseInt(meterNoField.getText());
-            previousReading = Integer.parseInt(previousReadingField.getText());
-            currentReading = Integer.parseInt(currentReadingField.getText());
+               
+                customerNo = Integer.parseInt(customerNoField.getText());
+                meterNo = Integer.parseInt(meterNoField.getText());
+                previousReading = Integer.parseInt(previousReadingField.getText());
+                currentReading = Integer.parseInt(currentReadingField.getText());
 
-            int units = currentReading - previousReading;
+                units = currentReading - previousReading;
+                if (units <= 100)
+                    totalBill = units;
+                else if (units <= 200)
+                    totalBill = 100 + (units - 100) * 2.5;
+                else if (units <= 500)
+                    totalBill = 100 + 250 + (units - 200) * 4;
+                else
+                    totalBill = 100 + 250 + 1200 + (units - 500) * 6;
+
+                JOptionPane.showMessageDialog(frame, "Total Bill: Rs. " +totalBill);
+
+            }
+            else if (e.getSource() == printButton) {
+           
+            /*int units = currentReading - previousReading;
             if (units <= 100)
                 totalBill = units;
             else if (units <= 200)
@@ -86,32 +119,62 @@ public class ElectricityBill implements ActionListener {
                 totalBill = 100 + 250 + (units - 200) * 4;
             else
                 totalBill = 100 + 250 + 1200 + (units - 500) * 6;
-
-            JOptionPane.showMessageDialog(frame, "Total Bill: Rs. " +totalBill);
-
-        } else if (e.getSource() == printButton) {
-        
-        int units = currentReading - previousReading;
-        if (units <= 100)
-            totalBill = units;
-        else if (units <= 200)
-            totalBill = 100 + (units - 100) * 2.5;
-        else if (units <= 500)
-            totalBill = 100 + 250 + (units - 200) * 4;
-        else
-            totalBill = 100 + 250 + 1200 + (units - 500) * 6;
-
-        String billDetails = "Customer Number: " + customerNo + "\n" +
-                             "Meter Number: " + meterNo + "\n" +
-                             "Previous Reading: " + previousReading + "\n" +
-                             "Current Reading: " + currentReading + "\n" +
-                             "Total Units: " + units + "\n" +
-                             "Total Bill: Rs. " + totalBill;
-        JTextArea textArea = new JTextArea(billDetails);
-        JOptionPane.showMessageDialog(frame, textArea);
+*/
+            String billDetails = "Customer Number: " + customerNo + "\n" +
+                                 "Meter Number: " + meterNo + "\n" +
+                                 "Previous Reading: " + previousReading + "\n" +
+                                 "Current Reading: " + currentReading + "\n" +
+                                 "Total Units: " + units + "\n" +
+                                 "Total Bill: Rs. " + totalBill;
+            JTextArea textArea = new JTextArea(billDetails);
+            JOptionPane.showMessageDialog(frame, textArea);
     }
-}
+        }
+        if(commercial.isSelected())
+             {
+              if (e.getSource() == calculateButton) {
+                     
+                     customerNo = Integer.parseInt(customerNoField.getText());
+                     meterNo = Integer.parseInt(meterNoField.getText());
+                     previousReading = Integer.parseInt(previousReadingField.getText());
+                     currentReading = Integer.parseInt(currentReadingField.getText());
 
+                     units = currentReading - previousReading;
+                     if (units <= 100)
+                         totalBill = units*2;
+                     else if (units <= 200)
+                         totalBill = 200 + (units - 100) * 4.5;
+                     else if (units <= 500)
+                         totalBill = 200 + 450 + (units - 200) * 6;
+                     else
+                         totalBill = 200 + 450 + 1800 + (units - 500) * 7;
+
+                     JOptionPane.showMessageDialog(frame, "Total Bill: Rs. " +totalBill);
+
+                 }
+                 else if (e.getSource() == printButton) {
+                 
+                 /*int units = currentReading - previousReading;
+                 if (units <= 100)
+                     totalBill = units;
+                 else if (units <= 200)
+                     totalBill = 100 + (units - 100) * 2.5;
+                 else if (units <= 500)
+                     totalBill = 100 + 250 + (units - 200) * 4;
+                 else
+                     totalBill = 100 + 250 + 1200 + (units - 500) * 6;
+*/
+                 String billDetails = "Customer Number: " + customerNo + "\n" +
+                                      "Meter Number: " + meterNo + "\n" +
+                                      "Previous Reading: " + previousReading + "\n" +
+                                      "Current Reading: " + currentReading + "\n" +
+                                      "Total Units: " + units + "\n" +
+                                      "Total Bill: Rs. " + totalBill;
+                 JTextArea textArea = new JTextArea(billDetails);
+                 JOptionPane.showMessageDialog(frame, textArea);
+                 }
+              }
+       }
 public static void main(String[] args) {
     new ElectricityBill();
 }
